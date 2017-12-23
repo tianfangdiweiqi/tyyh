@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>网络部-历史消息</title>
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+		<link rel="stylesheet" type="text/css" href="css/insert.css">
+		<link rel="stylesheet" type="text/css" href="css/zt.css">
+		<link rel="stylesheet" type="text/css" href="css/search.css" />
+		<link rel="stylesheet" type="text/css" href="css/formStyle.css" />
+		<link rel="stylesheet" type="text/css" href="css/page.css">
+		<link rel="stylesheet" type="text/css" href="css/add.css" />
+		<link rel="stylesheet" type="text/css" href="css/popup.css" />
+		<link rel="stylesheet" href="css/tablelist.css" />
+		<link rel="stylesheet" type="text/css" href="css/popup-notsee.css" />
+		<link rel="stylesheet" type="text/css" href="css/popups.css" />
+
+		<style type="text/css">
+			.td02 {
+				width: 30%;
+			}
+			.span01{
+				background-color: #44BB00;
+				color: #fff;
+				height: 25px;
+				width: 35px;
+				display: inline-block;
+				text-align: center;
+				line-height: 25px;
+				margin-left: 20px;
+				font-family: "微软雅黑";
+				border-radius: 5px;
+			}
+		</style>
+
+		<script type="text/javascript" src="js/alert.js"></script>
+		<script src="js/jquery-1.8.3.js"></script>
+		<script src="js/page.js"></script>
+		<script src="js/tableSelected.js"></script>
+		<script type="text/javascript">
+			/*绑定表格数据*/
+
+			$(function() {
+
+				newsLoad();
+			});
+
+			function newsLoad() {
+				var str = "";
+				$.ajax({
+					url: "news.txt",
+					type: "get",
+					dataType: "text",
+					async: true,
+					success: function(data) {
+						data = $.parseJSON(data);
+						$("#tableData").append(str);
+						$(data.newsList).each(function(index) {
+							str1 = "<tr>" +
+								"<td class='td02'>" + this.bh + "</td>" +
+								"<td class='td02'>" + this.xm + "</td>" +
+								"<td class='td02'>" + this.bm + "</td>" +
+								"</tr>";
+							$("#tableData").append(str1);
+						})
+						showPage(1, 10, 46);
+					},
+					error: function() {
+						alert("出现异常！");
+					}
+
+				});
+			}
+		</script>
+	</head>
+
+	<body>
+		<div>
+			<div class="tabContent">
+				<h1 class="tabTitle" style="display: inline-block;">查询历史消息</h1><span class="span01">36</span>
+				<div class="serach">
+					<div class="searchTitle">
+						搜索条件
+					</div>
+					<div style="margin:50px">
+						时间：<input type="date" name="Time" class="Time">
+						<input type="button" class="searchBotton" value="搜索">
+					</div>
+					<hr>
+					<input type="hidden" value="1" id="orderId">
+					<h1 class="tabTitle">操作信息</h1>
+					<div class="tableInfo">
+
+						<table cellpadding="0" cellspacing="0" border="0" class="selectTable">
+							<thead>
+								<tr>
+									<th class="td02">发送者</th>
+									<th class="td02">内容</th>
+									<th class="td02">时间</th>
+								</tr>
+							</thead>
+							<tbody id="consulters">
+							</tbody>
+						</table>
+						<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData"></table>
+						<div class="pageStyle" >
+							<div class="pagecount" >
+								<span class="txtLeft">每页显示</span>
+								<div class="total">
+									<select name="total">
+										<option>20</option>
+										<option>50</option>
+										<option>100</option>
+										<option>200</option>
+									</select>
+								</div>
+								<span class="txtRight">条</span>
+							</div>
+							<div class="searchPage">
+								<div class="txt">G0&nbsp;</div>
+								<input type="text" name="pageNo" />
+								<img src="images/fdj.png" class="imgSearch" />
+							</div>
+							<div class="page" id="page">&nbsp;</div>
+						</div>
+					</div>
+
+				</div>
+	</body>
+
+</html>
